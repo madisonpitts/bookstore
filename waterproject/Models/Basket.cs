@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +13,7 @@ namespace bookstore.Models
     {
         public List<BasketLineItem> Items { get; set; } = new List<BasketLineItem>();
 
-        public void AddItem(Book bk, int qty, double price)
+        public virtual void AddItem(Book bk, int qty, double price)
         {
             BasketLineItem line = Items
                 .Where(b => b.Book.BookId == bk.BookId)
@@ -34,6 +35,16 @@ namespace bookstore.Models
             }
         }
 
+        public virtual void RemoveItem (Book bk)
+        {
+            Items.RemoveAll(x => x.Book.BookId == bk.BookId);
+        }
+
+        public virtual void ClearBasket()
+        {
+            Items.Clear();
+        }
+
         public double CalculateTotal()
         {
             double sum = Items.Sum(x => x.Price * x.Quantity);
@@ -46,6 +57,7 @@ namespace bookstore.Models
 
     public class BasketLineItem
     {
+        [Key]
         public int LineID { get; set; }
         public Book Book { get; set; }
         public double Quantity { get; set; }
