@@ -40,9 +40,9 @@ namespace bookstore.Models
                 entity.HasIndex(e => e.BookId)
                     .IsUnique();
 
-                entity.Property(e => e.BookId)
-                    .HasColumnName("BookID")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.BookId);
+                    //.HasColumnName("BookID")
+                    //.ValueGeneratedNever();
 
                 entity.Property(e => e.Author).IsRequired();
 
